@@ -251,19 +251,25 @@ public class ListenActivity extends AppCompatActivity implements NoDeviceDialogF
         String cause;
         switch (status) {
             case DEVICE_NOT_FOUND:
-                cause = getString(R.string.cause_device_not_found);
+                deviceMonitor.searchDevice(new Runnable() {
+                    @Override
+                    public void run() {
+                        goToNextTrack();
+                    }
+                });
                 break;
             case USER_NOT_PREMIUM:
                 cause = getString(R.string.cause_user_not_premium);
+                Toast.makeText(ListenActivity.this, getString(R.string.next_track_failed_because, cause), Toast.LENGTH_LONG).show();
                 break;
             case DEVICE_TEMPORARILY_UNAVAILABLE:
                 cause = getString(R.string.cause_device_temporarily_unavailable);
+                Toast.makeText(ListenActivity.this, getString(R.string.next_track_failed_because, cause), Toast.LENGTH_LONG).show();
                 break;
             default:
                 cause = getString(R.string.cause_other);
+                Toast.makeText(ListenActivity.this, getString(R.string.next_track_failed_because, cause), Toast.LENGTH_LONG).show();
         }
-
-        Toast.makeText(ListenActivity.this, getString(R.string.next_track_failed_because, cause), Toast.LENGTH_LONG).show();
     }
 
     @Override

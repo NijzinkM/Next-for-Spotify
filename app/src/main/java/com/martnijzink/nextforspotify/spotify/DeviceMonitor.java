@@ -1,5 +1,7 @@
 package com.martnijzink.nextforspotify.spotify;
 
+import android.support.annotation.Nullable;
+
 import com.martnijzink.nextforspotify.Consumer;
 import com.martnijzink.nextforspotify.spotify.objects.Device;
 
@@ -19,11 +21,19 @@ public class DeviceMonitor {
     }
 
     public void searchDevice() {
+        searchDevice(null);
+    }
+
+    public void searchDevice(@Nullable final Runnable onFound) {
         connect.getActiveDevice(new Consumer<Device>() {
             @Override
             public void accept(Device device) {
                 DeviceMonitor.this.device = device;
                 DeviceMonitor.this.onDevice.accept(device);
+
+                if (onFound != null) {
+                    onFound.run();
+                }
             }
         }, onError, onNoDevice);
     }
