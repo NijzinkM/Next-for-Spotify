@@ -152,7 +152,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void accept(User user) {
                 Log.d(LOG_TAG, "user info retrieved successfully");
-                textWelcome.setText(getString(R.string.welcome_user, user.getDisplayName()));
+                textWelcome.setText(getString(R.string.greeting, user.getDisplayName()));
             }
         }, new Consumer<WebAPIException>() {
             @Override
