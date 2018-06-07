@@ -18,11 +18,8 @@ import com.martnijzink.nextforspotify.spotify.webapi.WebAPIException;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
-import com.spotify.sdk.android.player.Error;
-import com.spotify.sdk.android.player.PlayerEvent;
-import com.spotify.sdk.android.player.SpotifyPlayer;
 
-public class LoginActivity extends AppCompatActivity implements SpotifyPlayer.NotificationCallback {
+public class LoginActivity extends AppCompatActivity {
 
     public static final String ACCESS_TOKEN_KEY = "access_token";
 
@@ -164,16 +161,6 @@ public class LoginActivity extends AppCompatActivity implements SpotifyPlayer.No
                 Toast.makeText(LoginActivity.this, R.string.get_user_info_failed, Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    @Override
-    public void onPlaybackEvent(PlayerEvent playerEvent) {
-        Log.d(LOG_TAG, "playback event received: " + playerEvent.name());
-    }
-
-    @Override
-    public void onPlaybackError(Error error) {
-        Log.d(LOG_TAG, "playback error received: " + error.name());
     }
 
 }
