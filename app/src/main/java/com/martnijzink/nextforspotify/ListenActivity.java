@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -18,7 +17,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.martnijzink.nextforspotify.speech.SpeechService;
+import com.martnijzink.nextforspotify.speech.PocketSphinxService;
 import com.martnijzink.nextforspotify.speech.SpeechServiceConnection;
 import com.martnijzink.nextforspotify.spotify.DeviceMonitor;
 import com.martnijzink.nextforspotify.spotify.SpotifyConnect;
@@ -55,8 +54,6 @@ public class ListenActivity extends AppCompatActivity implements NoDeviceDialogF
         speakButton = findViewById(R.id.button_speak);
 
         speakButton.setEnabled(false);
-
-        muteSpeechRecognizer();
 
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
 
@@ -103,18 +100,12 @@ public class ListenActivity extends AppCompatActivity implements NoDeviceDialogF
     }
 
     private void switchListeningOnOff() {
-        Intent intent = new Intent(this, SpeechService.class);
-
         speakButton.setEnabled(false);
 
-        if (listening) {
-            intent.setAction(SpeechService.STOP_FOREGROUND);
-            doUnbindService();
-            startService(intent);
+        if (!listening) {
+            sendStartServiceIntent();
         } else {
-            intent.setAction(SpeechService.START_FOREGROUND);
-            startService(intent);
-            doBindService(intent);
+            sendStopServiceIntent();
         }
     }
 
@@ -147,21 +138,21 @@ public class ListenActivity extends AppCompatActivity implements NoDeviceDialogF
         };
 
         IntentFilter filter = new IntentFilter();
-        filter.addAction(SpeechService.KEYWORD_HEARD);
-        filter.addAction(SpeechService.SPEECH_READY);
-        filter.addAction(SpeechService.SPEECH_OFF);
+        filter.addAction(PocketSphinxService.KEYWORD_HEARD);
+        filter.addAction(PocketSphinxService.SPEECH_READY);
+        filter.addAction(PocketSphinxService.SPEECH_OFF);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter);
     }
 
     private void handleSpeechServiceAction(String action) {
-        if (SpeechService.KEYWORD_HEARD.equals(action)) {
+        if (PocketSphinxService.KEYWORD_HEARD.equals(action)) {
             goToNextTrack();
-        } else if (SpeechService.SPEECH_READY.equals(action)) {
+        } else if (PocketSphinxService.SPEECH_READY.equals(action)) {
             listening = true;
             speakButton.setEnabled(true);
             speakButton.setImageResource(R.drawable.white_mic_disableable);
-        } else if (SpeechService.SPEECH_OFF.equals(action)) {
+        } else if (PocketSphinxService.SPEECH_OFF.equals(action)) {
             listening = false;
             speakButton.setEnabled(true);
             speakButton.setImageResource(R.drawable.white_mic_off_disableable);
@@ -192,14 +183,6 @@ public class ListenActivity extends AppCompatActivity implements NoDeviceDialogF
 
     private void updateDeviceText(String text) {
         deviceText.setText(text);
-    }
-
-    private void muteSpeechRecognizer() {
-        final AudioManager am = (AudioManager) getBaseContext().getSystemService(Context.AUDIO_SERVICE);
-
-        if (am != null) {
-            am.setStreamVolume(AudioManager.STREAM_MUSIC,  -100, 0); // -100 is the int value of API 23 constant AudioManager.ADJUST_MUTE
-        }
     }
 
     @Override
@@ -272,15 +255,30 @@ public class ListenActivity extends AppCompatActivity implements NoDeviceDialogF
         }
     }
 
+    private void sendStartServiceIntent() {
+        Log.d(LOG_TAG, "sending start service intent");
+
+        Intent intent = new Intent(this, PocketSphinxService.class);
+        intent.setAction(PocketSphinxService.START_FOREGROUND);
+        startService(intent);
+        doBindService(intent);
+}
+
+    private void sendStopServiceIntent() {
+        Log.d(LOG_TAG, "sending stop service intent");
+
+        Intent intent = new Intent(this, PocketSphinxService.class);
+        intent.setAction(PocketSphinxService.STOP_FOREGROUND);
+        doUnbindService();
+        startService(intent);
+    }
+
     @Override
     protected void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
 
         if (connection != null && bound) {
-            doUnbindService();
-            Intent intent = new Intent(ListenActivity.this, SpeechService.class);
-            intent.setAction(SpeechService.STOP_FOREGROUND);
-            startService(intent);
+            sendStopServiceIntent();
         }
 
         super.onDestroy();

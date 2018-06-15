@@ -12,7 +12,7 @@ public class SpeechServiceConnection implements ServiceConnection {
 
     @Override
     public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-        speechService = ((SpeechService.LocalBinder) iBinder).getService();
+        speechService = ((PocketSphinxService.LocalBinder) iBinder).getService();
         bound = true;
     }
 

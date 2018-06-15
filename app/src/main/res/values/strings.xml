@@ -30,5 +30,5 @@
     <string name="channel_name">Next speech recognizer</string>
     <string name="channel_description">Reacts to the command to go to the next Spotify track</string>
     <string name="listening_for_keyword">Listening for keyword</string>
-    <string name="keyword_next">spotify next</string>
+    <string name="keyword_next">skip skip</string>
 </resources>

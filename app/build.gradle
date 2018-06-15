@@ -43,4 +43,10 @@ dependencies {
     // Quick and easy HTTP requests
     api 'com.android.volley:volley:1.1.0'
 
+    // Libs
+    api fileTree(dir: 'libs', include: ['*.aar'])
 }
+
+ant.importBuild 'assets.xml'
+preBuild.dependsOn(list, checksum)
+clean.dependsOn(clean_assets)
