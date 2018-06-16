@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">Next for Spotify</string>
+    <string name="app_name">Skip Skip</string>
     <string name="action_settings">Settings</string>
     <string name="tap_on_mic">Tap on microphone to speak</string>
     <string name="speech_prompt">Say something!</string>
     <string name="speech_not_supported">Sorry! Your device doesn\\\'t support speech input</string>
     <string name="microphone_icon">Microphone icon</string>
-    <string name="permission_not_granted">Audio recording permission not granted! Cannot use Next.</string>
+    <string name="permission_not_granted">Audio recording permission not granted! Cannot use Skip Skip.</string>
     <string name="log_in">Log in</string>
     <string name="greeting">Hi %1$s!</string>
     <string name="get_user_info_failed">Could not get Spotify user info</string>
@@ -14,7 +14,7 @@
     <string name="login_cancelled">Spotify login cancelled</string>
     <string name="dots">\u2026</string>
     <string name="get_refresh_token_failed">Could not get Spotify refresh token</string>
-    <string name="start_next">Start Next</string>
+    <string name="start_next">Start Skip Skip</string>
     <string name="devices_search_failed">An error occurred while looking for devices</string>
     <string name="next_track_failed_internal_error">Could not go to next track because of an internal error</string>
     <string name="cause_device_not_found">the device was not found</string>
@@ -27,8 +27,8 @@
     <string name="no_active_device_found">No active device found</string>
     <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>
-    <string name="channel_name">Next speech recognizer</string>
+    <string name="channel_name">Skip Skip speech recognizer</string>
     <string name="channel_description">Reacts to the command to go to the next Spotify track</string>
     <string name="listening_for_keyword">Listening for keyword</string>
-    <string name="keyword_next">spotify next</string>
+    <string name="keyword_next">skip skip</string>
 </resources>
