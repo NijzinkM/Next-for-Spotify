@@ -7,7 +7,7 @@
     <string name="microphone_icon">Microphone icon</string>
     <string name="permission_not_granted">Audio recording permission not granted! Cannot use Next.</string>
     <string name="log_in">Log in</string>
-    <string name="welcome_user">Welcome, %1$s!</string>
+    <string name="greeting">Hi %1$s!</string>
     <string name="get_user_info_failed">Could not get Spotify user info</string>
     <string name="switch_user">Switch user</string>
     <string name="login_failed">Spotify login failed</string>
