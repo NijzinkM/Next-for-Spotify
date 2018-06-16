@@ -1,3 +1,3 @@
-Mart Nijzink created open source app "Next for Spotify" for free use. He does not store your data.
+Mart Nijzink created open source app "Skip Skip" for free use. He does not store your data.
 
 However, this app uses Google speech-to-text. You can read Google's terms here: https://cloud.google.com/terms/
