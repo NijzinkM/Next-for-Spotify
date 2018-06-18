@@ -39,7 +39,7 @@ public class NotificationBuilder {
                 .setSmallIcon(R.drawable.ic_notification_speech)
                 .setLargeIcon(largeIcon)
                 .setContentIntent(pendingIntent)
-                .setOngoing(true).build();
+                .build();
     }
 
 }
