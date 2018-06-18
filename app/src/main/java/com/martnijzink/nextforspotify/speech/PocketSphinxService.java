@@ -51,8 +51,6 @@ public class PocketSphinxService extends Service implements KeywordListenerActor
             } else if (STOP_FOREGROUND.equals(intent.getAction())) {
                 Log.d(LOG_TAG, "received stop foreground intent");
 
-                sendIntent(SPEECH_OFF);
-
                 stopForeground(true);
                 stopSelf(); // calls onDestroy()
             }
@@ -117,6 +115,8 @@ public class PocketSphinxService extends Service implements KeywordListenerActor
             recognizer.cancel();
             recognizer.shutdown();
         }
+
+        sendIntent(SPEECH_OFF);
 
         super.onDestroy();
     }
