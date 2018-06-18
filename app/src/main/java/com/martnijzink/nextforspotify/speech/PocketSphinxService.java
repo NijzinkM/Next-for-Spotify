@@ -29,7 +29,6 @@ public class PocketSphinxService extends Service implements KeywordListenerActor
     public static final String START_FOREGROUND = "com.martnijzink.nextforspotify.speech.PocketSphinxService.startforeground";
     public static final String STOP_FOREGROUND = "com.martnijzink.nextforspotify.speech.PocketSphinxService.stopforeground";
     public static final String KEYWORD_HEARD = "com.martnijzink.nextforspotify.speech.PocketSphinxService.keywordheard";
-    public static final String IO_ERROR = "com.martnijzink.nextforspotify.speech.PocketSphinxService.ioerror";
     public static final String SPEECH_READY = "com.martnijzink.nextforspotify.speech.PocketSphinxService.speachready";
     public static final String SPEECH_OFF = "com.martnijzink.nextforspotify.speech.PocketSphinxService.speachoff";
 
