@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.martnijzink.nextforspotify.common.Constant;
 import com.martnijzink.nextforspotify.spotify.objects.User;
 import com.martnijzink.nextforspotify.spotify.webapi.WebAPI;
 import com.martnijzink.nextforspotify.spotify.webapi.WebAPIException;
@@ -69,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(LOG_TAG, "starting browser login");
         loginButton.setEnabled(false);
 
-        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(Common.CLIENT_ID, AuthenticationResponse.Type.TOKEN, Common.REDIRECT_URI);
+        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(Constant.CLIENT_ID, AuthenticationResponse.Type.TOKEN, Constant.REDIRECT_URI);
         builder.setScopes(PERMISSIONS);
         builder.setShowDialog(loggedIn);
         AuthenticationRequest request = builder.build();

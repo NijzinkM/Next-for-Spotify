@@ -10,6 +10,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.martnijzink.nextforspotify.R;
+import com.martnijzink.nextforspotify.common.AudioFilePlayer;
 import com.martnijzink.nextforspotify.notification.NotificationBuilder;
 import com.martnijzink.nextforspotify.notification.NotificationChannelBuilder;
 
@@ -34,6 +35,7 @@ public class PocketSphinxService extends Service implements KeywordListenerActor
 
     private final IBinder binder = new LocalBinder();
     private SpeechRecognizer recognizer;
+    private AudioFilePlayer audioPlayer;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -44,6 +46,8 @@ public class PocketSphinxService extends Service implements KeywordListenerActor
         if (intent != null) {
             if (START_FOREGROUND.equals(intent.getAction())) {
                 Log.d(LOG_TAG, "received start foreground intent ");
+
+                audioPlayer = new AudioFilePlayer();
 
                 showNotification();
                 createRecognizer();
@@ -101,6 +105,14 @@ public class PocketSphinxService extends Service implements KeywordListenerActor
     public void onKeywordHeard() {
         Log.d(LOG_TAG, "sending message from speech service to listen activity");
         sendIntent(KEYWORD_HEARD);
+
+        beep();
+    }
+
+    private void beep() {
+        if (audioPlayer != null) {
+            audioPlayer.play(this, R.raw.beep);
+        }
     }
 
     @Override
