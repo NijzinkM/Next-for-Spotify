@@ -68,7 +68,8 @@ public class PocketSphinxRecognizer implements RecognitionListener {
 
     @Override
     public void onError(Exception e) {
-        Log.d(LOG_TAG, "speech recognition error: " + e.getMessage());
+        Log.e(LOG_TAG, "speech recognition error", e);
+        restart();
     }
 
     @Override

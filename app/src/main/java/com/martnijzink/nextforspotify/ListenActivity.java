@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -54,6 +55,8 @@ public class ListenActivity extends AppCompatActivity implements NoDeviceDialogF
         speakButton = findViewById(R.id.button_speak);
 
         speakButton.setEnabled(false);
+
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
 

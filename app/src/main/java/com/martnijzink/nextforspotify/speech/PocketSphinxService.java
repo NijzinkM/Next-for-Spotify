@@ -10,6 +10,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.martnijzink.nextforspotify.R;
+import com.martnijzink.nextforspotify.common.AudioFilePlayer;
 import com.martnijzink.nextforspotify.notification.NotificationBuilder;
 import com.martnijzink.nextforspotify.notification.NotificationChannelBuilder;
 
@@ -29,12 +30,12 @@ public class PocketSphinxService extends Service implements KeywordListenerActor
     public static final String START_FOREGROUND = "com.martnijzink.nextforspotify.speech.PocketSphinxService.startforeground";
     public static final String STOP_FOREGROUND = "com.martnijzink.nextforspotify.speech.PocketSphinxService.stopforeground";
     public static final String KEYWORD_HEARD = "com.martnijzink.nextforspotify.speech.PocketSphinxService.keywordheard";
-    public static final String IO_ERROR = "com.martnijzink.nextforspotify.speech.PocketSphinxService.ioerror";
     public static final String SPEECH_READY = "com.martnijzink.nextforspotify.speech.PocketSphinxService.speachready";
     public static final String SPEECH_OFF = "com.martnijzink.nextforspotify.speech.PocketSphinxService.speachoff";
 
     private final IBinder binder = new LocalBinder();
     private SpeechRecognizer recognizer;
+    private AudioFilePlayer audioPlayer;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -46,12 +47,12 @@ public class PocketSphinxService extends Service implements KeywordListenerActor
             if (START_FOREGROUND.equals(intent.getAction())) {
                 Log.d(LOG_TAG, "received start foreground intent ");
 
+                audioPlayer = new AudioFilePlayer();
+
                 showNotification();
                 createRecognizer();
             } else if (STOP_FOREGROUND.equals(intent.getAction())) {
                 Log.d(LOG_TAG, "received stop foreground intent");
-
-                sendIntent(SPEECH_OFF);
 
                 stopForeground(true);
                 stopSelf(); // calls onDestroy()
@@ -104,6 +105,14 @@ public class PocketSphinxService extends Service implements KeywordListenerActor
     public void onKeywordHeard() {
         Log.d(LOG_TAG, "sending message from speech service to listen activity");
         sendIntent(KEYWORD_HEARD);
+
+        beep();
+    }
+
+    private void beep() {
+        if (audioPlayer != null) {
+            audioPlayer.play(this, R.raw.beep);
+        }
     }
 
     @Override
@@ -117,6 +126,8 @@ public class PocketSphinxService extends Service implements KeywordListenerActor
             recognizer.cancel();
             recognizer.shutdown();
         }
+
+        sendIntent(SPEECH_OFF);
 
         super.onDestroy();
     }
