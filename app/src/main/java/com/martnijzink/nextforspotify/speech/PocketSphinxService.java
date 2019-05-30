@@ -91,7 +91,7 @@ public class PocketSphinxService extends Service implements KeywordListenerActor
             File assetsDir = assets.syncAssets();
             recognizer = SpeechRecognizerSetup.defaultSetup()
                     .setAcousticModel(new File(assetsDir, "en-us-ptm"))
-                    .setDictionary(new File(assetsDir, "cmudict-en-us.dict"))
+                    .setDictionary(new File(assetsDir, "just-skip.dict"))
 //                    .setRawLogDir(assetsDir) // To enable logging of raw audio, uncomment this call (takes a lot of space on the device)
                     .getRecognizer();
 
