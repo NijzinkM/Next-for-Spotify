@@ -26,6 +26,7 @@ public class PocketSphinxService extends Service implements KeywordListenerActor
     private static final String LOG_TAG = PocketSphinxService.class.getName();
     private static final int NOTIFICATION_ID = 8103;
     private static final String CHANNEL_ID = "channel_id";
+    public static final String KEYWORD_SEARCH = "keyphrasesearch";
 
     public static final String START_FOREGROUND = "com.martnijzink.nextforspotify.speech.PocketSphinxService.startforeground";
     public static final String STOP_FOREGROUND = "com.martnijzink.nextforspotify.speech.PocketSphinxService.stopforeground";
@@ -95,7 +96,9 @@ public class PocketSphinxService extends Service implements KeywordListenerActor
 //                    .setRawLogDir(assetsDir) // To enable logging of raw audio, uncomment this call (takes a lot of space on the device)
                     .getRecognizer();
 
-            new PocketSphinxRecognizer(recognizer, getString(R.string.keyword_next), this).start();
+            recognizer.getDecoder().setKws(KEYWORD_SEARCH, new File(assetsDir,"skip-skip.kwlist").getAbsolutePath());
+
+            new PocketSphinxRecognizer(recognizer,this).start();
         } catch (IOException e) {
             e.printStackTrace();
         }

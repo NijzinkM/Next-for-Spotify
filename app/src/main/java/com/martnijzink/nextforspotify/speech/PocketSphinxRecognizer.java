@@ -9,18 +9,15 @@ import edu.cmu.pocketsphinx.SpeechRecognizer;
 public class PocketSphinxRecognizer implements RecognitionListener {
 
     private static final String LOG_TAG = PocketSphinxRecognizer.class.getName();
-    private static final String KEYWORD_SEARCH = "keywordsearch";
 
     private SpeechRecognizer recognizer;
-    private String keyword;
     private KeywordListenerActor actor;
 
-    public PocketSphinxRecognizer(SpeechRecognizer recognizer, String keyword, KeywordListenerActor actor) {
+    public PocketSphinxRecognizer(SpeechRecognizer recognizer, KeywordListenerActor actor) {
         this.recognizer = recognizer;
-        this.keyword = keyword;
         this.actor = actor;
 
-        recognizer.addKeyphraseSearch(KEYWORD_SEARCH, keyword);
+        //recognizer.addKeyphraseSearch(KEYWORD_SEARCH, keyword);
         recognizer.addListener(this);
     }
 
@@ -33,7 +30,7 @@ public class PocketSphinxRecognizer implements RecognitionListener {
     private void restart() {
         Log.d(LOG_TAG, "speech recognition restarting");
         recognizer.stop();
-        recognizer.startListening(KEYWORD_SEARCH);
+        recognizer.startListening(PocketSphinxService.KEYWORD_SEARCH);
     }
 
     @Override
@@ -55,10 +52,8 @@ public class PocketSphinxRecognizer implements RecognitionListener {
         String text = hypothesis.getHypstr();
         Log.d(LOG_TAG, "partial result: " + text);
 
-        if (text.equals(keyword)) { // always true
-            actor.onKeywordHeard();
-            restart();
-        }
+        actor.onKeywordHeard();
+        restart();
     }
 
     @Override
