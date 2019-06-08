@@ -58,7 +58,9 @@ public class PocketSphinxRecognizer implements RecognitionListener {
 
     @Override
     public void onResult(Hypothesis hypothesis) {
-        Log.d(LOG_TAG, "speech recognition result received: " + hypothesis.getHypstr());
+        if (hypothesis != null) {
+            Log.d(LOG_TAG, "speech recognition result received: " + hypothesis.getHypstr());
+        }
     }
 
     @Override
